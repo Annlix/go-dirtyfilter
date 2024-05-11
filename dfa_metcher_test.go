@@ -1,17 +1,18 @@
 package dirtyfilter
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMatchFromCustomWords(t *testing.T) {
 	tests := []struct {
-		replaceChar rune
 		input       string
-		filterWords []string
 		output      string
+		filterWords []string
 		keywords    []string
+		replaceChar rune
 	}{
 		{
 			replaceChar: '*',
@@ -75,7 +76,7 @@ func TestMatchFromCustomWords(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
-			keywords, output := NewDFAMather().Builder(test.filterWords).Match(test.input, test.replaceChar)
+			keywords, output := NewDFAMatcher().Builder(test.filterWords).Match(test.input, test.replaceChar)
 			assert.Equal(t, test.output, output)
 			assert.ElementsMatch(t, test.keywords, keywords)
 		})
@@ -84,10 +85,10 @@ func TestMatchFromCustomWords(t *testing.T) {
 
 func TestMatchFromFileWords(t *testing.T) {
 	tests := []struct {
-		replaceChar rune
 		input       string
 		output      string
 		keywords    []string
+		replaceChar rune
 	}{
 		{
 			replaceChar: '*',
@@ -125,7 +126,7 @@ func TestMatchFromFileWords(t *testing.T) {
 		},
 	}
 	filterWords := LoadFileWords("./dirty.2017.txt")
-	mather := NewDFAMather().Builder(filterWords)
+	mather := NewDFAMatcher().Builder(filterWords)
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
 			keywords, output := mather.Match(test.input, test.replaceChar)

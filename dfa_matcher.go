@@ -7,8 +7,8 @@ import (
 
 // Node 代表DFA的一个节点。
 type Node struct {
-	End  bool           // 是否为一个单词的结束。
 	Next map[rune]*Node // 一个映射，用于存储此节点的所有子节点。
+	End  bool           // 是否为一个单词的结束。
 }
 
 // DFAMatcher 代表一个完整的DFA。
@@ -17,8 +17,8 @@ type DFAMatcher struct {
 	mu   sync.Mutex // 互斥锁，保证线程安全
 }
 
-// NewDFAMather 创建出一个DFA树的根节点实例
-func NewDFAMather() *DFAMatcher {
+// NewDFAMatcher 创建出一个DFA树的根节点实例
+func NewDFAMatcher() *DFAMatcher {
 	return &DFAMatcher{
 		root: &Node{
 			End: false,
@@ -91,7 +91,7 @@ func (d *DFAMatcher) Match(text string, replaceChar rune) (sensitiveWords []stri
 			if temp.End {
 				// 如果找到一个敏感词，将其添加到结果列表中，并在副本中替换为指定字符
 				sensitiveWords = append(sensitiveWords, string(textChars[i:j]))
-				d.replaceRune(textCharsCopy, replaceChar, i, j) //替换敏感词
+				d.replaceRune(textCharsCopy, replaceChar, i, j) // 替换敏感词
 			}
 			temp = temp.findChild(textChars[j])
 		}
